@@ -1,0 +1,12 @@
+jobName: pi
+
+completions: 0
+parallelism: 1
+activeDeadlineSeconds: 120
+ttlSecondsAfterFinished: 5
+
+image:
+  name: perl
+  tag: 5.34.0
+
+command: ["perl",  "-Mbignum=bpi", "-wle", "print bpi(2000)"]

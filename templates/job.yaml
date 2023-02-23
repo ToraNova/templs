@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Values.jobName }}
+spec:
+  completions: {{ .Values.completions }}
+  # https://kubernetes.io/docs/concepts/workloads/controllers/job/#controlling-parallelism
+  parallelism: {{ .Values.parallelism }}
+  # all pods will terminate upon this time limit, the job will fail
+  activeDeadlineSeconds: {{ .Values.activeDeadlineSeconds }}
+  # the job will be eligible for deletion after n seconds upon completion/failure
+  ttlSecondsAfterFinished: {{ .Values.ttlSecondsAfterFinished }}
+  template:
+    spec:
+      containers:
+        - name: basic-container
+          image: {{ .Values.image.name }}:{{ .Values.image.tag }}
+          command: {{ .Values.jobCommand }}
+      restartPolicy: Never # either Never or OnFailure
+  backoffLimit: 2
