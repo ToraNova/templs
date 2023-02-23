@@ -9,12 +9,15 @@ spec:
   # all pods will terminate upon this time limit, the job will fail
   activeDeadlineSeconds: {{ .Values.activeDeadlineSeconds }}
   # the job will be eligible for deletion after n seconds upon completion/failure
-  ttlSecondsAfterFinished: {{ .Values.ttlSecondsAfterFinished }}
+  #ttlSecondsAfterFinished: {{ .Values.ttlSecondsAfterFinished }}
   template:
     spec:
       containers:
         - name: basic-container
           image: {{ .Values.image.name }}:{{ .Values.image.tag }}
-          command: {{ .Values.jobCommand }}
+          command:
+          {{- range .Values.jobCommands }}
+            - {{ . | quote }}
+          {{- end }}
       restartPolicy: Never # either Never or OnFailure
   backoffLimit: 2
