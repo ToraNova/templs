@@ -1,0 +1,12 @@
+appName: webapp1
+
+port: 80
+
+configmap:
+  name: helm-configmap-v1
+  data:
+    HTML_HEADER: 'This app was deployed with helm!'
+
+image:
+  name: toranova/python-webapp1
+  tag: latest
